@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 MovieWatchList - Ma liste de films</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .movie-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .watched {
+            opacity: 0.7;
+            background-color: #f0fdf4;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-purple-600 mb-2">
+                <i class="fas fa-film"></i> MovieWatchList
+            </h1>
+            <p class="text-gray-600">Gère tes films à voir et déjà vus</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Formulaire d'ajout -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-lg sticky top-8">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                        <i class="fas fa-plus-circle text-purple-500"></i> Ajouter un film
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Titre du film *</label>
+                            <input type="text" id="movieTitle" 
+                                   placeholder="Ex: Inception"
+                                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Année</label>
+                                <input type="number" id="movieYear" 
+                                       placeholder="2023"
+                                       class="w-full p-3 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Genre</label>
+                                <select id="movieGenre" class="w-full p-3 border rounded-lg">
+                                    <option value="Autre">Autre</option>
+                                    <option value="Action">Action</option>
+                                    <option value="Comédie">Comédie</option>
+                                    <option value="Drame">Drame</option>
+                                    <option value="SF">Science-Fiction</option>
+                                    <option value="Horreur">Horreur</option>
+                                    <option value="Animation">Animation</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button onclick="addMovie()" 
+                                class="w-full bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700 transition flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i> Ajouter à ma liste
+                        </button>
+                    </div>
+                    
+                    <!-- Statistiques -->
+                    <div class="mt-8 pt-6 border-t">
+                        <h3 class="font-bold text-gray-700 mb-3">📊 Mes stats</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-purple-50 p-3 rounded-lg text-center">
+                                <div class="text-2xl font-bold" id="totalMovies">0</div>
+                                <div class="text-sm text-gray-600">Total films</div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg text-center">
+                                <div class="text-2xl font-bold" id="watchedMovies">0</div>
+                                <div class="text-sm text-gray-600">Déjà vus</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des films -->
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-list"></i> Ma collection
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button onclick="filterMovies('all')" 
+                                class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200">
+                            Tous
+                        </button>
+                        <button onclick="filterMovies('watched')" 
+                                class="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200">
+                            Vus
+                        </button>
+                        <button onclick="filterMovies('unwatched')" 
+                                class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200">
+                            À voir
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Container pour les films -->
+                <div id="moviesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Les films apparaîtront ici via JavaScript -->
+                    <div class="text-center py-10 text-gray-500">
+                        <i class="fas fa-film text-4xl mb-4"></i>
+                        <p>Ajoute ton premier film!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>Développé avec ❤️ en Node.js + MongoDB | MovieWatchList v1.0</p>
+        </footer>
+    </div>
+
+    <!-- Modal pour éditer/voir les détails -->
+    <div id="movieModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <h3 class="text-2xl font-bold mb-4" id="modalTitle">Détails du film</h3>
+            <div id="modalContent">
+                <!-- Contenu généré par JavaScript -->
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button onclick="closeModal()" 
+                        class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
