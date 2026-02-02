@@ -12,8 +12,8 @@ MovieWatchList est une application full-stack simple qui vous permet de :
     📝 Ajouter des notes personnelles
 
     🗑️ Supprimer des films
+       recherche et filtrage avances
 
-Idéal pour débutants en développement full-stack !
 2. Installation
     # 1. Téléchargez le projet
     git clone https://github.com/votre-nom/moviewatchlist.git
@@ -44,6 +44,7 @@ Idéal pour débutants en développement full-stack !
    
     Ajout rapide de films
     Cartes visuelles pour chaque film
+    recherche de film
     Filtres dynamiques (Tous / Vus / À voir)
     Système de notation par étoiles
     Design responsive (mobile & desktop)

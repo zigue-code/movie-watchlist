@@ -113,6 +113,54 @@
                     </div>
                 </div>
                 
+                <!-- Barre de recherche et filtres avancés -->
+                <div class="bg-white p-4 rounded-xl shadow mb-6">
+                    <h3 class="text-lg font-bold mb-4 text-gray-800">
+                        <i class="fas fa-search"></i> Recherche et filtres
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1">Titre</label>
+                            <input type="text" id="searchTitle" placeholder="Rechercher par titre..."
+                                   class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1">Genre</label>
+                            <select id="searchGenre" class="w-full p-2 border rounded-lg">
+                                <option value="">Tous les genres</option>
+                                <option value="Action">Action</option>
+                                <option value="Comédie">Comédie</option>
+                                <option value="Drame">Drame</option>
+                                <option value="SF">Science-Fiction</option>
+                                <option value="Horreur">Horreur</option>
+                                <option value="Animation">Animation</option>
+                                <option value="Documentaire">Documentaire</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1">Année</label>
+                            <input type="number" id="searchYear" placeholder="Ex: 2023"
+                                   class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1">Note min (étoiles)</label>
+                            <input type="number" id="searchRating" placeholder="Ex: 3" min="0" max="5" step="0.1"
+                                   class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 mt-4">
+                        <button onclick="searchMovies()" 
+                                class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                            <i class="fas fa-search mr-2"></i> Rechercher
+                        </button>
+                        <button onclick="clearSearch()" 
+                                class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                            <i class="fas fa-times mr-2"></i> Effacer
+                        </button>
+                    </div>
+                </div>
+                
                 <!-- Container pour les films -->
                 <div id="moviesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Les films apparaîtront ici via JavaScript -->

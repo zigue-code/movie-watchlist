@@ -350,3 +350,46 @@ function setupModalClose() {
         if (e.key === 'Escape') closeModal();
     });
 }
+
+// 9. RECHERCHE ET FILTRES AVANCÉS
+async function searchMovies() {
+    const title = document.getElementById('searchTitle').value.trim();
+    const genre = document.getElementById('searchGenre').value;
+    const year = document.getElementById('searchYear').value.trim();
+    const rating = document.getElementById('searchRating').value.trim();
+    
+    // Construire l'URL avec les paramètres
+    let url = API_URL;
+    const params = [];
+    
+    if (title) params.push(`title=${encodeURIComponent(title)}`);
+    if (genre) params.push(`genre=${encodeURIComponent(genre)}`);
+    if (year) params.push(`year=${year}`);
+    if (rating) params.push(`rating_gte=${rating}`);
+    
+    if (params.length > 0) {
+        url += '?' + params.join('&');
+    }
+    
+    try {
+        const response = await fetch(url);
+        const movies = await response.json();
+        displayMovies(movies);
+        // Mettre à jour allMovies pour les stats, mais seulement si c'est une recherche complète
+        if (params.length === 0) {
+            allMovies = movies;
+            updateStats();
+        }
+    } catch (error) {
+        console.error('Erreur de recherche:', error);
+        alert('Erreur lors de la recherche');
+    }
+}
+
+function clearSearch() {
+    document.getElementById('searchTitle').value = '';
+    document.getElementById('searchGenre').value = '';
+    document.getElementById('searchYear').value = '';
+    document.getElementById('searchRating').value = '';
+    loadMovies(); // Recharger tous les films
+}

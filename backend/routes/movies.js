@@ -3,10 +3,33 @@ const express = require('express');
 const Movie = require('../models/Movie');
 const router = express.Router();
 
-// 1. GET - Tous les films
+// 1. GET - Tous les films (avec filtres optionnels)
 router.get('/', async (req, res) => {
   try {
-    const movies = await Movie.find().sort({ createdAt: -1 });
+    const { title, genre, year, rating_gte } = req.query;
+    let query = {};
+
+    // Filtre par titre (recherche partielle, insensible à la casse)
+    if (title) {
+      query.title = { $regex: title, $options: 'i' };
+    }
+
+    // Filtre par genre
+    if (genre) {
+      query.genre = genre;
+    }
+
+    // Filtre par année
+    if (year) {
+      query.year = parseInt(year);
+    }
+
+    // Filtre par note minimale
+    if (rating_gte) {
+      query.rating = { $gte: parseFloat(rating_gte) };
+    }
+
+    const movies = await Movie.find(query).sort({ createdAt: -1 });
     res.json(movies);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -31,7 +54,7 @@ router.post('/', async (req, res) => {
 // 2.b GET - Récupérer un film par son id
 router.get('/:id', async (req, res) => {
   try {
-    const movie = await Movie.findById(req.params.id);
+    const movie = await Movie.findById(req.params.id); 
     if (!movie) return res.status(404).json({ error: 'Film non trouvé' });
     res.json(movie);
   } catch (error) {
