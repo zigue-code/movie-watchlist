@@ -13,6 +13,7 @@ MovieWatchList est une application full-stack simple qui vous permet de :
 
     🗑️ Supprimer des films
        recherche et filtrage avances
+   🎥 Intégration API TMDB (affiche, synopsis, réalisateur)
 
 2. Installation
     # 1. Téléchargez le projet
@@ -26,6 +27,9 @@ MovieWatchList est une application full-stack simple qui vous permet de :
     # 3. Créez le fichier .env
     echo "MONGODB_URI=mongodb://localhost:27017/moviedb" > .env
     echo "PORT=5000" >> .env
+    echo "TMDB_API_KEY=votre_clé_api_tmdb" >> .env
+    
+    # Pour obtenir une clé TMDB gratuite : https://www.themoviedb.org/settings/api
     
     # 4. Démarrez le serveur backend
     npm run dev
@@ -43,12 +47,13 @@ MovieWatchList est une application full-stack simple qui vous permet de :
    Interface Utilisateur
    
     Ajout rapide de films
-    Cartes visuelles pour chaque film
+    Cartes visuelles pour chaque film avec affiche TMDB
     recherche de film
     Filtres dynamiques (Tous / Vus / À voir)
     Système de notation par étoiles
     Design responsive (mobile & desktop)
     Modal d'édition en un clic
+    Affichage automatique du synopsis et réalisateur via TMDB
   Gestion des Films
     // Exemple de film dans la base
       {

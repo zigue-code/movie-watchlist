@@ -31,6 +31,18 @@ const movieSchema = new mongoose.Schema({
     type: String,
     maxlength: 500
   },
+  poster: {
+    type: String, // URL de l'affiche
+    default: ''
+  },
+  overview: {
+    type: String, // Synopsis
+    maxlength: 1000
+  },
+  director: {
+    type: String, // Réalisateur
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now

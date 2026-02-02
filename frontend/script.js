@@ -53,8 +53,9 @@ function displayMovies(movies) {
         html += `
             <div class="movie-card bg-white rounded-xl shadow p-5 ${watchedClass}">
                 <div class="flex justify-between items-start mb-3">
-                    <div>
+                    <div class="flex-1">
                         <h3 class="font-bold text-lg text-gray-800">${movie.title}</h3>
+                        ${movie.director ? `<p class="text-sm text-gray-500 mb-2">Réalisé par ${movie.director}</p>` : ''}
                         <div class="flex items-center text-gray-600 text-sm mt-1">
                             <span class="bg-gray-100 px-2 py-1 rounded mr-2">
                                 ${movie.year || 'N/A'}
@@ -64,21 +65,26 @@ function displayMovies(movies) {
                             </span>
                         </div>
                     </div>
-                    <div class="flex space-x-2">
-                        <button onclick="toggleWatched('${movie._id}', ${!movie.watched})" 
-                                class="text-sm ${movie.watched ? 'text-green-600' : 'text-gray-400'}">
-                            <i class="fas fa-${movie.watched ? 'check-circle' : 'eye'}"></i>
-                        </button>
-                        <button onclick="showMovieDetails('${movie._id}')" 
-                                class="text-purple-600">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="deleteMovie('${movie._id}')" 
-                                class="text-red-400 hover:text-red-600">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                    <div class="flex flex-col items-end">
+                        ${movie.poster ? `<img src="${movie.poster}" alt="Affiche" class="w-20 h-30 rounded mb-2">` : ''}
+                        <div class="flex space-x-2">
+                            <button onclick="toggleWatched('${movie._id}', ${!movie.watched})" 
+                                    class="text-sm ${movie.watched ? 'text-green-600' : 'text-gray-400'}">
+                                <i class="fas fa-${movie.watched ? 'check-circle' : 'eye'}"></i>
+                            </button>
+                            <button onclick="showMovieDetails('${movie._id}')" 
+                                    class="text-purple-600">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteMovie('${movie._id}')" 
+                                    class="text-red-400 hover:text-red-600">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
+                
+                ${movie.overview ? `<p class="text-sm text-gray-600 mb-3">${movie.overview}</p>` : ''}
                 
                 <!-- Rating -->
                 <div class="mb-3">
